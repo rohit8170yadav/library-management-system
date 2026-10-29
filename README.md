@@ -1,16 +1,17 @@
-# LibraDesk — Library Management System
+# LibraDesk — Library Membership & Fee Management
 
-A responsive library-management website made with HTML, CSS, and vanilla JavaScript.
+A responsive front-end website made with HTML, CSS, and vanilla JavaScript.
 
 ## Features
-- Dashboard with book, available-copy, active-loan, and member counts
-- Add, edit, search, filter, and delete books
+- Dashboard with registered members, total amount collected, current dues, and upcoming expiry count
 - Add, edit, search, and delete members
-- Issue books to members and set due dates
-- Return books and automatically update available copies
-- Overdue loan status
+- Store each member's phone number, monthly fee, current-cycle amount paid, and membership expiry date
+- Record fee payments and maintain a payment history
+- Calculate total collection and current-cycle dues
+- Automatically identify expired memberships and memberships expiring within the next 30 days
+- Open a pre-filled reminder in WhatsApp or the phone's SMS app
 - Responsive layout for laptop and mobile
-- Saves changes in browser `localStorage`
+- Saves data in the current browser using `localStorage`
 
 ## Run locally
 1. Extract `library-management-system.zip`.
@@ -19,13 +20,12 @@ A responsive library-management website made with HTML, CSS, and vanilla JavaScr
 
 No installation is required.
 
-## Publish for free with GitHub Pages
-1. Sign in or create an account at https://github.com/
-2. Create a public repository, e.g. `library-management-system`.
-3. Upload `index.html`, `style.css`, `app.js`, and optionally this README.
-4. Open **Settings → Pages**.
-5. Under build/deployment, choose **Deploy from a branch**, select `main` and `/ (root)`, then Save.
-6. Wait for deployment and open the URL GitHub Pages shows, typically `https://YOUR-USERNAME.github.io/library-management-system/`.
+## Publish with GitHub Pages
+1. Upload `index.html`, `style.css`, `app.js`, and this README to the root of a GitHub repository.
+2. Open **Settings → Pages**.
+3. Select **Deploy from a branch**, branch `main`, folder `/(root)`, then Save. Alternatively, configure GitHub Actions deployment.
 
-## Important limitation
-This version is a front-end demo. Records are saved only in the current browser on the current device. It does not have a secure admin login, shared database, server-side validation, or multi-user access. For a real college/production deployment, add a backend (for example PHP + MySQL or Node.js + MySQL) and authentication. Do not store sensitive real member information in this demo.
+## Important limitations
+- This is a front-end demo. Data is stored only in the current browser on the current device; it is not shared between devices and is not backed up to a server.
+- Expiry tracking is automatic when the website is opened, but GitHub Pages cannot automatically send unattended SMS or WhatsApp messages. The reminder buttons open a pre-filled message that the admin must send. Fully automated scheduled delivery requires a backend/scheduler and a messaging provider such as an approved SMS gateway or WhatsApp Business Platform, along with credentials and any applicable charges.
+- Do not use real or sensitive member information in this demo without adding secure authentication, a backend, access controls, and backups.

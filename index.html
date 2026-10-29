@@ -3,62 +3,68 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Library Management System</title>
+  <meta name="theme-color" content="#6b5ce7" />
+  <title>Library Membership & Fee Management</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <aside class="sidebar">
-    <div class="brand"><div class="brand-mark">L</div><div><strong>LibraDesk</strong><small>Library Management</small></div></div>
+    <div class="brand"><div class="brand-mark">L</div><div><strong>LibraDesk</strong><small>Membership & Fees</small></div></div>
     <nav>
       <button class="nav-link active" data-view="dashboard"><span>▦</span> Dashboard</button>
-      <button class="nav-link" data-view="books"><span>▤</span> Books</button>
       <button class="nav-link" data-view="members"><span>♙</span> Members</button>
-      <button class="nav-link" data-view="transactions"><span>↔</span> Issue & Return</button>
+      <button class="nav-link" data-view="fees"><span>₹</span> Fee Records</button>
+      <button class="nav-link" data-view="reminders"><span>◷</span> Fee Reminders</button>
     </nav>
     <div class="sidebar-bottom"><div class="avatar">LB</div><div><strong>Library Admin</strong><small>Administrator</small></div></div>
   </aside>
 
   <main class="main">
     <header class="topbar">
-      <div><p class="eyebrow">LIBRARY OVERVIEW</p><h1 id="page-title">Dashboard</h1></div>
-      <div class="top-actions"><span class="today" id="today"></span><button class="primary" id="quick-add">＋ Add Book</button></div>
+      <div><p class="eyebrow">LIBRARY MEMBERSHIP</p><h1 id="page-title">Dashboard</h1></div>
+      <div class="top-actions"><span class="today" id="today"></span><button class="primary" id="quick-add">＋ Add Member</button></div>
     </header>
 
     <section class="view active" id="dashboard-view">
-      <div class="welcome"><div><p class="eyebrow light">WELCOME BACK</p><h2>Your library, at a glance.</h2><p>Manage your collection, members, and lending activity in one place.</p></div><div class="welcome-icon">▤</div></div>
+      <div class="welcome"><div><p class="eyebrow light">WELCOME BACK</p><h2>Membership fees, at a glance.</h2><p>Track payments, outstanding dues and upcoming expiry dates.</p></div><div class="welcome-icon">₹</div></div>
       <div class="stats">
-        <article class="stat-card"><div class="stat-top"><span>Total Books</span><span class="stat-icon violet">▤</span></div><strong id="stat-books">0</strong><small>Titles in your collection</small></article>
-        <article class="stat-card"><div class="stat-top"><span>Available Copies</span><span class="stat-icon green">✓</span></div><strong id="stat-available">0</strong><small>Ready to borrow</small></article>
-        <article class="stat-card"><div class="stat-top"><span>Active Loans</span><span class="stat-icon orange">↗</span></div><strong id="stat-loans">0</strong><small>Books currently issued</small></article>
-        <article class="stat-card"><div class="stat-top"><span>Members</span><span class="stat-icon blue">♙</span></div><strong id="stat-members">0</strong><small>Registered readers</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Registered Members</span><span class="stat-icon violet">♙</span></div><strong id="stat-members">0</strong><small>All library members</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Total Collected</span><span class="stat-icon green">₹</span></div><strong id="stat-collected">₹0</strong><small>All recorded payments</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Total Dues</span><span class="stat-icon orange">!</span></div><strong id="stat-dues">₹0</strong><small>Unpaid current-cycle fees</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Expiring in 30 Days</span><span class="stat-icon blue">◷</span></div><strong id="stat-expiring">0</strong><small>Renewal reminders to send</small></article>
       </div>
       <div class="content-grid">
-        <section class="panel"><div class="panel-heading"><div><h3>Recent Transactions</h3><p>Latest issue and return activity</p></div><button class="text-button" data-goto="transactions">View all →</button></div><div id="recent-transactions"></div></section>
-        <section class="panel"><div class="panel-heading"><div><h3>Collection Snapshot</h3><p>Availability across your library</p></div></div><div class="snapshot"><div class="snapshot-number" id="snapshot-percent">0%</div><div class="progress"><div id="snapshot-bar"></div></div><div class="snapshot-labels"><span>Available copies</span><strong id="snapshot-available">0 / 0</strong></div><p class="hint">Keep track of the copies ready for your readers.</p></div></section>
+        <section class="panel"><div class="panel-heading"><div><h3>Upcoming Expiries</h3><p>Members expiring within the next 30 days</p></div><button class="text-button" data-goto="reminders">View reminders →</button></div><div id="dashboard-reminders"></div></section>
+        <section class="panel"><div class="panel-heading"><div><h3>Fee Summary</h3><p>Current cycle collection progress</p></div></div><div class="snapshot"><div class="snapshot-number" id="collection-percent">0%</div><div class="progress"><div id="collection-bar"></div></div><div class="snapshot-labels"><span>Collected from current fees</span><strong id="collection-label">₹0 / ₹0</strong></div><p class="hint">Total collected is calculated from the payment history. Dues are based on each member's monthly fee minus the amount paid in the current cycle.</p></div></section>
       </div>
-      <section class="panel"><div class="panel-heading"><div><h3>Recently Added Books</h3><p>Your newest titles</p></div><button class="text-button" data-goto="books">Browse books →</button></div><div id="recent-books" class="book-strip"></div></section>
-    </section>
-
-    <section class="view" id="books-view">
-      <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="book-search" placeholder="Search title, author, ISBN..." /></div><select id="book-filter"><option value="all">All availability</option><option value="available">Available</option><option value="unavailable">Out of stock</option></select><button class="primary" id="add-book">＋ Add Book</button></div>
-      <section class="panel table-panel"><div class="panel-heading"><div><h3>Book Collection</h3><p id="book-count">All books in your library</p></div></div><div class="table-wrap"><table><thead><tr><th>Book</th><th>ISBN</th><th>Category</th><th>Copies</th><th>Status</th><th>Actions</th></tr></thead><tbody id="books-table"></tbody></table></div></section>
+      <section class="panel"><div class="panel-heading"><div><h3>Recent Payments</h3><p>Latest fee entries</p></div><button class="text-button" data-goto="fees">View all →</button></div><div id="recent-payments"></div></section>
     </section>
 
     <section class="view" id="members-view">
       <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="member-search" placeholder="Search name, email, phone..." /></div><button class="primary" id="add-member">＋ Add Member</button></div>
-      <section class="panel table-panel"><div class="panel-heading"><div><h3>Registered Members</h3><p>Manage library readers</p></div></div><div class="table-wrap"><table><thead><tr><th>Member</th><th>Email</th><th>Phone</th><th>Joined</th><th>Active Loans</th><th>Actions</th></tr></thead><tbody id="members-table"></tbody></table></div></section>
+      <section class="panel table-panel"><div class="panel-heading"><div><h3>Registered Members</h3><p>Manage subscriptions and outstanding balances</p></div></div><div class="table-wrap"><table><thead><tr><th>Member</th><th>Phone</th><th>Expiry Date</th><th>Monthly Fee</th><th>Paid This Cycle</th><th>Due</th><th>Status</th><th>Actions</th></tr></thead><tbody id="members-table"></tbody></table></div></section>
     </section>
 
-    <section class="view" id="transactions-view">
-      <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="transaction-search" placeholder="Search book or member..." /></div><button class="primary" id="issue-book">＋ Issue Book</button></div>
-      <section class="panel table-panel"><div class="panel-heading"><div><h3>Issue & Return Register</h3><p>Track borrowed books and due dates</p></div></div><div class="table-wrap"><table><thead><tr><th>Book</th><th>Member</th><th>Issue Date</th><th>Due Date</th><th>Status</th><th>Action</th></tr></thead><tbody id="transactions-table"></tbody></table></div></section>
+    <section class="view" id="fees-view">
+      <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="fee-search" placeholder="Search member or payment date..." /></div><button class="primary" id="record-payment">＋ Record Payment</button></div>
+      <div class="stats fee-stats">
+        <article class="stat-card"><div class="stat-top"><span>Total Amount Collected</span><span class="stat-icon green">₹</span></div><strong id="fees-total-collected">₹0</strong><small>Lifetime recorded payments</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Current Outstanding Dues</span><span class="stat-icon orange">!</span></div><strong id="fees-total-dues">₹0</strong><small>Across all members</small></article>
+      </div>
+      <section class="panel table-panel"><div class="panel-heading"><div><h3>Payment History</h3><p>All recorded fee payments</p></div></div><div class="table-wrap"><table><thead><tr><th>Member</th><th>Amount</th><th>Payment Date</th><th>Note</th></tr></thead><tbody id="fees-table"></tbody></table></div></section>
     </section>
-    <footer>LibraDesk <span>•</span> Library Management System <span>•</span> Demo project</footer>
+
+    <section class="view" id="reminders-view">
+      <div class="reminder-note"><strong>Automatic expiry tracking</strong><p>This page identifies members whose expiry date is within 30 days or has passed. Use WhatsApp or SMS to open a pre-filled reminder. GitHub Pages alone cannot send messages in the background; fully automatic sending requires a backend and an approved messaging provider.</p></div>
+      <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="reminder-search" placeholder="Search member or phone..." /></div><button class="secondary" id="refresh-reminders">↻ Refresh reminders</button></div>
+      <section class="panel table-panel"><div class="panel-heading"><div><h3>Renewal Reminders</h3><p>Expired members and memberships expiring within the next 30 days</p></div></div><div class="table-wrap"><table><thead><tr><th>Member</th><th>Phone</th><th>Expiry Date</th><th>Days Left</th><th>Fee Due</th><th>Send Reminder</th></tr></thead><tbody id="reminders-table"></tbody></table></div></section>
+    </section>
+    <footer>LibraDesk <span>•</span> Membership & Fee Management <span>•</span> Demo project</footer>
   </main>
 
   <div class="modal-backdrop" id="modal-backdrop" hidden>
     <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <div class="modal-head"><div><p class="eyebrow">LIBRADESK</p><h2 id="modal-title">Add Book</h2></div><button class="icon-button" id="close-modal" aria-label="Close">×</button></div>
+      <div class="modal-head"><div><p class="eyebrow">LIBRADESK</p><h2 id="modal-title">Add Member</h2></div><button class="icon-button" id="close-modal" aria-label="Close">×</button></div>
       <form id="modal-form"><div id="modal-fields" class="form-grid"></div><div class="form-actions"><button type="button" class="secondary" id="cancel-modal">Cancel</button><button type="submit" class="primary" id="save-modal">Save</button></div></form>
     </section>
   </div>
